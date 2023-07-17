@@ -10,12 +10,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/users")
 public class UserController {
     @Autowired
     private UserService service;
-    @PostMapping
-    public void postUser(@RequestBody User user){
+
+    @PostMapping("/users")
+    public User createUser(@RequestBody User user) {
+        // Define a ROLE padrão como "USERS" caso a lista de roles esteja vazia
+        if (user.getRoles().isEmpty()) {
+            user.getRoles().add("USERS");
+        }
+
+        // Lógica para salvar o usuário no banco de dados
+        // ...
         service.createUser(user);
+        return user;
     }
+
 }
